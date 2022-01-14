@@ -56,7 +56,7 @@ public class CheckRectangle {
 
             boolean found = false;
 
-            //Mengecek masing-
+            //Mengecek masing-masing kombinasi apakah dapat membentuk persegi panjang
             for (int i = 0; i < combin; i++) {
                 if (checkRectangle(combinations[i])) {
                     found = true;
