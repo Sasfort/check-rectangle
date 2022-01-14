@@ -8,12 +8,6 @@ public class CheckRectangle {
     private static int[][] dots;
     private static int[][] combinations;
 
-    /**
-     * The main method that reads input, calls the function 
-     * for each question's query, and output the results.
-     * @param args Unused.
-     * @return Nothing.
-     */
     public static void main(String[] args) {
         
         System.out.println("Masukkan jumlah titik yang ingin dicek:");
@@ -29,6 +23,7 @@ public class CheckRectangle {
             int x = in.nextInt();
             int y = in.nextInt();
 
+            //Jika terdapat titik yang duplikat, maka tidak digunakan lebih dari 1 kali
             boolean duplicate = false;
             for (int j = 0; j < noDupliCount; j++) {
                 if (x == dots[j][0] && y == dots[j][1]) {
@@ -44,29 +39,24 @@ public class CheckRectangle {
             }
         }
 
+        //Menggunakan jumlah titik non duplikat sebagai N
         System.out.println();
         N = noDupliCount;
 
         int combin = nCr(N,4);
         combinations = new int[combin][4];
         
-
         if (N >= 4) {
             int[] order = new int[N];
             for (int i = 0; i < N;i++) {
                 order[i] = i;
             }
+            //Menyimpan semua kombinasi 4 titik yang mungkin
             allCombination(order, N, 4);
-
-            // for (int i = 0; i < nCr(N, 4); i++) {
-            //     for (int j = 0; j < 4; j++) {
-            //         out.print(combinations[i][j] + " ");
-            //     }
-            //     out.println();
-            // }
 
             boolean found = false;
 
+            //Mengecek masing-
             for (int i = 0; i < combin; i++) {
                 if (checkRectangle(combinations[i])) {
                     found = true;
@@ -86,6 +76,7 @@ public class CheckRectangle {
         out.close();
     }
 
+    //Fungsi untuk mengecek apakah sebuah kombinasi titik dapat menghasilkan persegi panjang
     static boolean checkRectangle(int[] order) {
         int a = order[0];
         int b = order[1];
@@ -94,24 +85,23 @@ public class CheckRectangle {
         return isRectangle(a, b, c, d) || isRectangle(b, c, a, d) || isRectangle(c, a, b, d);
     }
 
+    //Mengecek apakah tiap sudut dari kombinasi titik-titik tegak lurus
     static boolean isRectangle(int a, int b, int c, int d){
         return isOrthogonal(a, b, c) && isOrthogonal(b, c, d) && isOrthogonal(c, d, a);
     }
 
+    //Mengecek tegak lurusnya suatu kombinasi 3 titik
     static boolean isOrthogonal(int a, int b, int c) {
         return (dots[b][0] - dots[a][0]) * (dots[b][0] - dots[c][0]) + (dots[b][1] - dots[a][1]) * (dots[b][1] - dots[c][1]) == 0;
     }
 
-    // Unused, ternyata persegi adalah subset persegi panjang
-    // static boolean checkNotSquare(int a, int b, int c) {
-    //     return (!((Math.abs(dots[b][0] - dots[a][0]) + Math.abs(dots[b][1] - dots[a][1])) == (Math.abs(dots[b][0] - dots[c][0]) + Math.abs(dots[b][1] - dots[c][1]))));
-    // }
-
+    //Mencari semua kombinasi dari titik-titik
     static void allCombination(int arr[], int n, int r) {
         int data[] = new int[r];
         combinationUtil(arr, n, r, 0, data, 0);
     }
 
+    //Pemanggilan rekursif untuk mencari kombinasi
     static void combinationUtil(int arr[], int n, int r, int index, int data[], int i) {
         if (index == r) {
             for (int j = 0; j < r; j++) {
@@ -125,10 +115,12 @@ public class CheckRectangle {
         }
     }
 
+    //Menghitung jumlah kombinasi nCr
     static int nCr(int n, int r) {
         return fact(n) / (fact(r) * fact(n - r));
     }
  
+    //Menghitung n faktorial
     static int fact(int n) {
         int res = 1;
         for (int i = 2; i <= n; i++) {
